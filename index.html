@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Validation Example</title>
+</head>
+<body>
+   <form id="myForm">
+  <span>First Name</span>
+  <input type="text" name="firstName" data-validation-condition="min_char:3" />
+  
+  <span>Last Name</span>
+  <input type="text" name="lastName" data-validation-condition="min_char:3 max_char:6" />
+  
+  <span>Age</span>
+  <input type="number" name="age" data-validation-condition="{min_age=18, max_age=60}" />
+  
+  <button type="submit">Submit</button>
+</form>
+
+<h1 id="error-text" style="color:red;"></h1>
+
+<script src="validators.js"></script>
+<script>
+  const form = document.getElementById("myForm");
+  const errorText = document.getElementById("error-text");
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+
+  const errors = ValidationModule.validateForm(form);
+    if (errors.length) {
+      errorText.innerHTML = errors.join("<br>");
+    } else {
+      errorText.textContent = "Form submitted successfully!";
+    }
+  });
+
+  ValidationModule.registerValidator(
+    "number_limit",
+    (value, limit) => parseInt(value) <= parseInt(limit),
+    "{field_name} should be less than or equal to {number_limit}"
+  );
+</script>
+
+    </script>
+</body>
+</html>
